@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
@@ -15,229 +15,154 @@ body {
 }
 
 .container {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    padding: 40px;
-    max-width: 1000px;
-    width: 100%;
-}
-
-header {
     text-align: center;
-    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
 }
 
 h1 {
-    color: #764ba2;
+    color: #333;
+    margin-bottom: 10px;
     font-size: 2.5em;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
-.stat .label {
-    font-size: 0.9em;
+.subtitle {
     color: #666;
-    font-weight: bold;
-    text-transform: uppercase;
+    margin-bottom: 30px;
+    font-size: 1.1em;
 }
 
-.stat .value {
-    font-size: 2em;
-    color: #764ba2;
-    font-weight: bold;
-}
-
-.best-score {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-    color: white;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 0.9em;
-    min-height: 20px;
-    text-align: center;
-}
-
+/* Game Board - 3x4 Grid */
 .game-board {
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     padding: 20px;
     background: #f5f5f5;
-    border-radius: 15px;
-    justify-items: center;
+    border-radius: 10px;
 }
 
-.game-board.grid-4x4 {
-    grid-template-columns: repeat(4, 1fr);
-    max-width: 500px;
-}
-
-.game-board.grid-4x6 {
-    grid-template-columns: repeat(4, 1fr);
-    max-width: 600px;
-}
-
-.game-board.grid-6x6 {
-    grid-template-columns: repeat(6, 1fr);
-    max-width: 700px;
-}
-
+/* Card Styling */
 .card {
     width: 100%;
-    aspect-ratio: 1;
-    border-radius: 10px;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 3px solid #667eea;
+    border-radius: 8px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+    transition: all 0.3s ease;
+    perspective: 1000px;
     position: relative;
-    transition: transform 0.2s;
-    transform-style: preserve-3d;
+    min-height: 120px;
 }
 
-.card:hover:not(.matched):not(.flipped) {
+.card:hover:not(.card--locked):not(.card--matched) {
     transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
 }
 
-.card.flipped .card-inner {
-    transform: rotateY(180deg);
+/* Card back (face-down) */
+.card::before {
+    content: '?';
+    font-size: 60px;
+    color: #fff;
+    font-weight: bold;
 }
 
-.card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-}
-
-.card-front,
-.card-back {
+/* Card image container (faces up) */
+.card__image {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
     display: flex;
-    align-items: center;
     justify-content: center;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 2em;
-}
-
-.card-front {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: 2px solid #764ba2;
-}
-
-.card-front::before {
-    content: '?';
-}
-
-.card-back {
+    align-items: center;
     background: white;
-    border: 2px solid #ddd;
-    transform: rotateY(180deg);
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.card-back img {
-    width: 90%;
-    height: 90%;
+.card__image img {
+    max-width: 90%;
+    max-height: 90%;
     object-fit: contain;
 }
 
-.card.matched .card-front {
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-    border-color: #38ef7d;
-}
-
-.card.matched .card-front::before {
-    content: '✓';
-}
-
-.card.matched {
-    cursor: default;
-    animation: matchAnimation 0.6s ease-in-out;
-}
-
-@keyframes matchAnimation {
-    0%, 100% {
-        transform: scale(1) rotate(0deg);
-    }
-    50% {
-        transform: scale(1.1) rotate(5deg);
-    }
-}
-
-.card.shake {
-    animation: shakeAnimation 0.5s;
-}
-
-@keyframes shakeAnimation {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    25% {
-        transform: translateX(-10px);
-    }
-    75% {
-        transform: translateX(10px);
-    }
-}
-
-.controls {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.btn {
-    padding: 12px 30px;
-    font-size: 1em;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
+.card__name {
+    position: absolute;
+    bottom: 5px;
+    font-size: 0.7em;
+    color: #333;
+    width: 100%;
+    text-align: center;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
-.btn-restart,
-.btn-difficulty {
+/* Card flipped (face-up) */
+.card--flipped::before {
+    opacity: 0;
+}
+
+.card--flipped .card__image {
+    opacity: 1;
+}
+
+/* Card matched */
+.card--matched {
+    opacity: 0.6;
+    cursor: default;
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.card--matched:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Card locked (waiting for match check) */
+.card--locked {
+    cursor: not-allowed;
+}
+
+/* Restart Button */
+.restart-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.btn-restart:hover,
-.btn-difficulty:hover {
+.restart-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
 }
 
-.btn-restart:active,
-.btn-difficulty:active {
+.restart-btn:active {
     transform: translateY(0);
 }
 
-/* Modal Styles */
-.modal {
+/* Win Message */
+.win-message {
     position: fixed;
     top: 0;
     left: 0;
@@ -245,137 +170,94 @@ h1 {
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     display: flex;
-    align-items: center;
     justify-content: center;
-    z-index: 1000;
-    opacity: 1;
-    transition: opacity 0.3s;
-}
-
-.modal.hidden {
-    display: none;
+    align-items: center;
     opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
 }
 
-.modal-content {
+.win-message--visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.win-message h2 {
+    font-size: 3em;
+    color: #84fab0;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    animation: bounce 0.6s ease-in-out;
+}
+
+.win-message p {
+    font-size: 1.3em;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.win-message .restart-btn {
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    color: #333;
+    font-size: 1.3em;
+    padding: 15px 40px;
+}
+
+.win-message > div {
     background: white;
     padding: 40px;
-    border-radius: 20px;
+    border-radius: 15px;
     text-align: center;
-    max-width: 500px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideUp 0.4s ease-out;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes slideUp {
-    from {
-        transform: translateY(50px);
-        opacity: 0;
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(1);
     }
-    to {
-        transform: translateY(0);
-        opacity: 1;
+    50% {
+        transform: scale(1.1);
     }
 }
 
-.modal h2 {
-    color: #764ba2;
-    margin-bottom: 15px;
-    font-size: 2em;
+/* Loading Spinner */
+.loading {
+    display: none;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
 }
 
-.modal p {
-    color: #666;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-}
-
-.result {
-    color: #11998e;
-    font-weight: bold;
-    margin: 20px 0;
-    font-size: 1.2em;
-}
-
-.difficulty-options {
-    display: flex;
-    gap: 15px;
-    flex-direction: column;
-    margin: 20px 0;
-}
-
-.difficulty-btn {
-    padding: 20px;
-    border: 2px solid #ddd;
-    background: white;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1.1em;
-    transition: all 0.3s;
-}
-
-.difficulty-btn:hover {
-    border-color: #764ba2;
-    background: #f5f5f5;
-    transform: translateX(5px);
-}
-
-.difficulty-btn small {
+.loading--visible {
     display: block;
-    font-size: 0.8em;
-    color: #999;
-    margin-top: 5px;
 }
 
-@media (max-width: 768px) {
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
     .container {
         padding: 20px;
     }
 
     h1 {
-        font-size: 1.8em;
+        font-size: 2em;
     }
 
-    .stats {
-        gap: 20px;
-    }
-
-    .stat .value {
-        font-size: 1.5em;
-    }
-
-    .game-board.grid-4x4 {
-        grid-template-columns: repeat(3, 1fr);
-        max-width: 400px;
-    }
-
-    .game-board.grid-4x6 {
-        grid-template-columns: repeat(3, 1fr);
-        max-width: 400px;
-    }
-
-    .game-board.grid-6x6 {
-        grid-template-columns: repeat(4, 1fr);
-        max-width: 400px;
-    }
-}
-
-@media (max-width: 480px) {
-    .game-board.grid-4x4,
-    .game-board.grid-4x6,
-    .game-board.grid-6x6 {
-        grid-template-columns: repeat(3, 1fr);
+    .game-board {
         gap: 10px;
-        max-width: 100%;
+        padding: 10px;
     }
 
-    h1 {
-        font-size: 1.5em;
-    }
-
-    .btn {
-        padding: 10px 20px;
-        font-size: 0.9em;
+    .card {
+        min-height: 100px;
     }
 }

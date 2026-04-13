@@ -1,148 +1,155 @@
 # 🎮 Pokemon Memory Game
 
-A fun, interactive memory matching game featuring Pokemon characters. Match pairs of Pokemon cards to win! Built with vanilla HTML, CSS, and JavaScript.
+A fun, interactive memory card matching game featuring Pokemon characters. Match pairs of Pokemon cards to win!
 
-## 🎯 Features
+**[Play the Game →](https://ethanjenkins1.github.io/devdaysweb/)**
 
-- **Three Difficulty Levels**: Easy (4×4), Medium (4×6), Hard (6×6)
-- **Score Tracking**: Automatic best score tracking per difficulty using localStorage
-- **35+ Pokemon**: Variety of Pokemon from different generations
-- **Smooth Animations**: Flip animations, match confirmations, and shake effects
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
-- **Accessibility**: Keyboard navigation support and ARIA labels
+## 📋 Features
 
-## 🕹️ How to Play
+✨ **Pokemon-Themed Gameplay**
 
-1. Click (or tap) on cards to flip them and reveal the Pokemon
-2. Find matching pairs by flipping two cards
-3. When you match a pair, the cards lock in place with a checkmark (✓)
-4. Complete all pairs to win the game
-5. Your best scores are automatically saved per difficulty level
+- 12 cards with 6 unique Pokemon pairs
+- Real Pokemon images from PokéAPI
+- Beautiful, modern UI with smooth animations
+
+🎯 **Core Mechanics**
+
+- Click cards to flip and reveal Pokemon
+- Match identical Pokemon characters
+- Non-matching pairs automatically flip back after 1 second
+- Matched pairs stay visible and locked
+- Restart button to play again with new Pokemon
+
+🚀 **Technical Highlights**
+
+- Vanilla JavaScript (no frameworks)
+- CSS3 Grid layout with responsive design
+- Real-time API integration with PokéAPI
+- Smooth CSS animations and transitions
+- Mobile-friendly design
+
+## 🏃 Quick Start
+
+### Local Development
+
+```bash
+# Clone the repository
+git clone https://github.com/ethanjenkins1/devdaysweb.git
+cd devdaysweb
+
+# Install dependencies
+npm install
+
+# Start dev server
+npm start
+
+# Open http://localhost:8080 in your browser
+```bash
+
+### Playing the Game
+
+1. **Start** - Page loads with 12 face-down cards
+2. **Flip** - Click any card to reveal the Pokemon
+3. **Match** - Click a second card to find a match
+4. **Win** - Match all 6 pairs to win the game
+5. **Restart** - Click "Restart Game" to play again with new Pokemon
+
+## 🛠️ Project Structure
+
+```
+.
+├── index.html          # Game markup
+├── styles.css          # Game styling and animations
+├── game.js             # Game logic and mechanics
+├── package.json        # Dependencies and scripts
+├── TEST_CHECKLIST.md   # Complete test documentation
+└── docs/
+    └── plans/          # Implementation plans
+```
 
 ## 🚀 Deployment
 
-This game is automatically deployed to GitHub Pages using GitHub Actions.
+This project is automatically deployed to GitHub Pages via GitHub Actions on every push to `main`.
 
-### GitHub Pages Configuration
+- **Live Site:** https://ethanjenkins1.github.io/devdaysweb/
+- **Workflow:** `.github/workflows/deploy.yml`
 
-The deployment workflow (`.github/workflows/deploy.yml`) automatically:
-
-- Triggers on every push to the `main` branch
-- Uploads the entire repository as a static site
+The workflow:
+- Triggers on every push to main branch
+- Installs dependencies
+- Verifies game files
 - Deploys to GitHub Pages
 
-### Access Your Game
+### Manual Deploy
 
-Once deployed, your game will be available at:
-
-```text
-https://<username>.github.io/<repository>/
-```
-
-For example: `https://ethanjenkins1.github.io/devdaysweb/`
-
-### Enable GitHub Pages
-
-1. Go to your repository settings: **Settings > Pages**
-2. Under "Build and deployment":
-   - Source: Select **GitHub Actions**
-   - This is already configured in `.github/workflows/deploy.yml`
-3. Save and wait ~1 minute for the first deployment
-
-## 📋 Project Structure
-
-```
-devdaysweb/
-├── index.html           # Game HTML structure
-├── styles.css           # Game styling and animations
-├── game.js              # Game logic and mechanics
-├── README.md            # This file
-├── .gitignore           # Git ignore patterns
-└── .github/
-    └── workflows/
-        └── deploy.yml   # GitHub Actions deployment workflow
-```
-
-## 🎨 Game Statistics
-
-The game tracks:
-- **Moves**: Number of card flips
-- **Matches**: Number of successful pairs
-- **Time**: Elapsed time in seconds
-- **Best Score**: Automatically saved for each difficulty level
-
-## 🛠️ Local Development
-
-Simply clone the repository and open `index.html` in your browser:
-
+Push to `main` branch:
 ```bash
-git clone <repository-url>
-cd devdaysweb
-# Open index.html in your browser
+git add .
+git commit -m "Update game"
+git push origin main
 ```
 
-No build tools or dependencies required!
+GitHub Actions will automatically deploy within 1-2 minutes.
+
+## 📊 Tech Stack
+
+- **Language:** JavaScript (ES6+)
+- **Styling:** CSS3 with Grid & Flexbox
+- **Data:** [PokéAPI](https://pokeapi.co/) for Pokemon data and images
+- **Build:** npm
+- **Deployment:** GitHub Actions + GitHub Pages
 
 ## 🎨 Customization
 
-### Add More Pokemon
-Edit `game.js` and add more entries to the `pokemonList` array:
+### Change Number of Cards
+Edit `CONFIG.CARD_COUNT` and `CONFIG.PAIR_COUNT` in `game.js`:
 
 ```javascript
-{ id: <pokedex_id>, name: '<pokemon_name>' }
+const CONFIG = {
+    CARD_COUNT: 16,  // 4x4 grid
+    PAIR_COUNT: 8,   // 8 pairs
+    // ...
+};
 ```
 
-Pokemon official artwork images are pulled from:
-`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<id>.png`
+### Change Pokemon Source
+Modify the `fetchRandomPokemon()` function to use different Pokemon generations or custom lists.
 
-### Change Colors
-Edit the CSS gradient colors in `styles.css`:
-```css
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-```
+### Customize Styling
+Edit `styles.css` to change colors, animations, or layout.
 
-## 📱 Browser Compatibility
+## ✅ Testing
 
-- Chrome/Edge: ✅ Full support
-- Firefox: ✅ Full support
-- Safari: ✅ Full support
-- Mobile browsers: ✅ Full support
+See [TEST_CHECKLIST.md](TEST_CHECKLIST.md) for comprehensive test coverage including:
+- Unit test results for all 6 implementation units
+- Gameplay verification
+- Browser compatibility
+- API integration validation
 
-## 🎮 Game Controls
+## 🎯 Future Enhancements
 
-- **Mouse**: Click cards to flip
-- **Touch**: Tap cards on mobile devices
-- **Keyboard**: Coming soon (currently spacebar/enter on focused cards)
+- [ ] Keyboard navigation (arrow keys)
+- [ ] Accessibility improvements (ARIA labels)
+- [ ] Scoring and timer system
+- [ ] Difficulty levels with 16+ cards
+- [ ] Sound effects
+- [ ] Local storage for high scores
+- [ ] Multiplayer mode
 
-## 📊 Deployment Workflow
+## 📝 License
 
-The GitHub Actions workflow does the following:
+MIT
 
-1. **Checkout**: Retrieves your code
-2. **Setup Pages**: Configures GitHub Pages environment
-3. **Upload Artifact**: Uploads all files to GitHub Pages
-4. **Deploy**: Publishes to your live URL
+## 🤝 Contributing
 
-Each commit to `main` triggers automatic deployment!
+Feel free to fork this project and submit pull requests with improvements!
 
-## 🐛 Troubleshooting
+## 📚 Resources
 
-**Game not loading?**
-- Check browser console for errors (F12)
-- Ensure you're accessing the correct GitHub Pages URL
+- [PokéAPI Documentation](https://pokeapi.co/)
+- [MDN Web Docs - CSS Grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout)
+- [MDN Web Docs - Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 
-**Images not showing?**
-- Check your internet connection (images are fetched from GitHub)
-- The fallback sprite will load if official artwork is unavailable
+---
 
-**Best score not saving?**
-- Check if localStorage is enabled in your browser
-- Clear browser cache and reload
-
-## 📄 License
-
-Feel free to use and modify this project as needed!
-
-## 🎉 Enjoy!
-
-Have fun playing and matching Pokemon! 🎮✨
+Made with ❤️ for Pokemon fans
