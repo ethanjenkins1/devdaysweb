@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Memory Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Pokemon Memory Game</h1>
+            <div class="stats">
+                <div class="stat">
+                    <span class="label">Moves:</span>
+                    <span class="value" id="moves">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">Matches:</span>
+                    <span class="value" id="matches">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">Time:</span>
+                    <span class="value" id="time">0s</span>
+                </div>
+            </div>
+            <div class="best-score" id="bestScore"></div>
+        </header>
+
+        <div class="game-board" id="gameBoard"></div>
+
+        <div class="controls">
+            <button class="btn btn-restart" id="restartBtn">🔄 Restart Game</button>
+            <button class="btn btn-difficulty" id="difficultyBtn">Change Difficulty</button>
+        </div>
+
+        <div id="winModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>🎉 Congratulations!</h2>
+                <p>You matched all the Pokemon!</p>
+                <p class="result" id="resultText"></p>
+                <button class="btn btn-restart" id="playAgainBtn">Play Again</button>
+            </div>
+        </div>
+
+        <div id="difficultyModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Select Difficulty</h2>
+                <div class="difficulty-options">
+                    <button class="difficulty-btn" data-difficulty="easy" data-grid="4x4">
+                        Easy<br><small>4x4 Grid (8 pairs)</small>
+                    </button>
+                    <button class="difficulty-btn" data-difficulty="medium" data-grid="4x6">
+                        Medium<br><small>4x6 Grid (12 pairs)</small>
+                    </button>
+                    <button class="difficulty-btn" data-difficulty="hard" data-grid="6x6">
+                        Hard<br><small>6x6 Grid (18 pairs)</small>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
