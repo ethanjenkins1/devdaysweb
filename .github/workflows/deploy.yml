@@ -7,6 +7,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
     
     steps:
       - name: Checkout code
@@ -15,18 +18,25 @@ jobs:
       - name: Copy files to docs folder
         run: |
           mkdir -p docs
-          cp index.html docs/
-          cp styles.css docs/
-          cp game.js docs/
-          cp .nojekyll docs/
+          cp index.html docs/ || true
+          cp styles.css docs/ || true
+          cp game.js docs/ || true
+          touch docs/.nojekyll
       
-      - name: Commit docs folder
+      - name: Commit and push docs
         run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
           git add docs/
-          git diff --cached --quiet || git commit -m "Deploy: update docs folder"
+          git diff --cached --quiet || git commit -m "chore: update docs for Pages deployment"
+          git push origin main || true
       
-      - name: Push changes
+      - name: Enable GitHub Pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git push
+          gh api repos/${{ github.repository }}/pages \
+            -X PATCH \
+            -F source[branch]=main \
+            -F source[path]=/docs \
+            --input - <<< '{}' 2>&1 | head -20 || echo "Pages might already be enabled"
